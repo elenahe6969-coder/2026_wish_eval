@@ -155,17 +155,10 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     
                     share_link = create_share_link(st.session_state.wish_id, wish_prompt)
                     
-                    col1, col2, col3 = st.columns([2, 1, 1])
+                    col1, col2 = st.columns([3, 1])
                     with col1:
                         st.code(share_link, language="text")
                     with col2:
-                        if st.button("📋 Copy Link", key="copy_main"):
-                            try:
-                                pyperclip.copy(share_link)
-                                st.success("✅ Copied!")
-                            except:
-                                st.info("📝 Link ready to share")
-                    with col3:
                         if st.button("🔄 New Wish"):
                             # Clear current wish to make a new one
                             st.session_state.my_wish_text = ""
@@ -178,7 +171,7 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     # Show more helpful feedback
                     st.warning("### 🎄 Let's Make This Wish Even Better!")
                     st.markdown(f"""
-                    **Your wish:** "{wish_prompt[:150]}..."
+                    Your wish: "{wish_prompt[:150]}..."
                     
                     **Tips to improve:**
                     1. **Start with positive words** like "I wish", "I hope", "I want"
