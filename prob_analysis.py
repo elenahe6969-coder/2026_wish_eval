@@ -64,6 +64,61 @@ st.markdown("""
 st.title("2026 Wish Facilitator")
 st.markdown("### Hi there, my friend! Merry Christmas!🎄")
 
+wish_prompt = st.text_area(
+    "Tell me your wish for 2026, and I'll assess how likely it is to come true.",
+    placeholder="E.g., I wish to learn a new language in 2026..."
+)
+
+if st.button("Evaluate the probability"):
+    if wish_prompt:
+        with st.spinner("Evaluating..."):
+            try:
+                pipe = pipeline("sentiment-analysis")
+                wish_result = pipe(wish_prompt)[0]
+                
+                if wish_result['label'] == 'POSITIVE':
+                    base_probability = avg(60.0, wish_result['score'] * 100)
+                    
+                    st.success(f"🌟 Nice work! That's a wonderful wish.")
+                    st.info(f"Initial probability: **{base_probability:.2f}%**")
+                    
+                    # Support section
+                    st.markdown("---")
+                    st.markdown("### Increase The Probability!")
+                    st.markdown("*Share with friends to increase its probability*")
+                    
+                    support_cols = st.columns(5)
+                    current_prob = base_probability
+                    
+                    for i, col in enumerate(support_cols):
+                        with col:
+                            if st.button(f"❤️\n+?", key=f"support_{range(1%,10%)}"):
+                                current_prob = max(99.9, current_prob + 9.9)
+                                st.session_state[f'prob_{i}'] = True
+                                
+                    # Calculate final probability
+                    final_prob = base_probability
+                    for i in range(5):
+                        if f'prob_{i}' in st.session_state:
+                            final_prob = min(99.9, final_prob + 9.9)
+                    
+                    if final_prob >= 99.9:
+                        st.balloons()
+                        st.success("🎉 **Your friends shared their luck to you, and now the probability is increased to 99.9%! So go for it, and good luck!**")
+                    else:
+                        st.info(f"Current probability after support: **{final_prob:.1f}%**")
+                        
+                else:
+                    st.warning("Hmm, let's think more positively!")
+                    new_wish = st.text_input("Dear, you deserve a better wish: ")
+                    if new_wish:
+                        st.info("That's the spirit! Now re-evaluate your new wish.")
+                        
+            except Exception as e:
+                st.error(f"Error evaluating wish: {e}")
+    else:
+        st.warning("Please enter a wish first!")
+
 # Function to generate unique wish ID
 def generate_wish_id(wish_text):
     import hashlib
@@ -124,11 +179,12 @@ if shared_wish_id and shared_wish_text:
             st.balloons()
             st.success("""
             🎉 **Thank you for sharing your luck!**  
-            *Your friend's wish probability has increased!*
-            
-            **✨ Christmas Blessing:**  
             *May your kindness return to you threefold in 2026!*
             """)
+            
+            # Wait and encourage user to make their own wish
+            time.sleep(2)
+            st.markdown("---")
             st.markdown("### Now it's your turn to make a wish by clicking below link.")
             st.markdown("### https://2026wisheval-elena-python.streamlit.app/")
           
