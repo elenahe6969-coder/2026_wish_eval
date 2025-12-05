@@ -218,11 +218,11 @@ if shared_wish_id and shared_wish_text:
                 
                 st.session_state.supported_wishes[shared_wish_id] = increment
                 st.balloons()
-                st.success(f"""
+                st.success(f"
                 Thank you for sharing your Christmas luck!
-                You added +{increment}% probability to the wish!=
+                You added +{increment}% probability to the wish!
                 May your kindness return to you threefold in 2026!
-                """)
+                ")
                 time.sleep(2)
                 st.markdown("---")
                 st.markdown("### 🎄 Now Make Your Own Wish Above!")
