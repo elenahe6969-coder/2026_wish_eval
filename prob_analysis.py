@@ -80,9 +80,6 @@ def evaluate_wish_sentiment(wish_text):
         })
         
         # For Christmas wishes, be more lenient
-        christmas_keywords = ['wish', 'hope', 'want', 'dream', 'would like', 'aspire', 'desire',
-                             'merry', 'christmas', 'happy', 'joy', 'peace', 'love', 'health']
-        
         # Check if it contains wish-related keywords
         has_wish_keyword = any(keyword in wish_text.lower() for keyword in ['wish', 'hope', 'want', 'dream'])
         
@@ -95,6 +92,7 @@ def evaluate_wish_sentiment(wish_text):
     except Exception as e:
         # Fallback: If model fails, assume positive for wishes
         print(f"oops! something went wrong: Model error: {e}")
+        return 'POSITIVE', 0.7  # ADDED RETURN STATEMENT
 
 
 # Main App
@@ -181,6 +179,28 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     st.warning("### 🎄 Let's Make This Wish Even Better!")
                     st.markdown(f"""
                     **Your wish:** "{wish_prompt[:150]}..."
+                    
+                    **Tips to improve:**
+                    1. **Start with positive words** like "I wish", "I hope", "I want"
+                    2. **Be specific** about what you want
+                    3. **Focus on positive outcomes**
+                    
+                    **Example:** Instead of "I don't want to be stressed", try "I wish to find peace and balance in 2026"
+                    """)
+                        
+            except Exception as e:
+                st.error(f"⚠️ Technical issue: {str(e)[:100]}")
+                # Fallback
+                st.success("🎄 **Christmas magic says your wish is POSITIVE!**")
+                base_probability = 65.0
+                st.info(f"**Initial probability: {base_probability:.1f}%**")
+                
+                # Save anyway
+                st.session_state.my_wish_text = wish_prompt
+                st.session_state.my_wish_probability = base_probability
+                st.session_state.wish_id = generate_wish_id(wish_prompt)
+    else:
+        st.warning("📝 Please write your wish (at least 4 characters)")
 
 # Check for shared wish (AFTER main wish evaluation)
 query_params = st.query_params
@@ -218,11 +238,11 @@ if shared_wish_id and shared_wish_text:
                 
                 st.session_state.supported_wishes[shared_wish_id] = increment
                 st.balloons()
-                st.success(f"
+                st.success(f"""
                 Thank you for sharing your Christmas luck!
                 You added +{increment}% probability to the wish!
                 May your kindness return to you threefold in 2026!
-                ")
+                """)
                 time.sleep(2)
                 st.markdown("---")
                 st.markdown("### 🎄 Now Make Your Own Wish Above!")
