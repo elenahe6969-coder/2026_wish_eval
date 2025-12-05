@@ -233,4 +233,4 @@ if shared_wish_id and shared_wish_text:
 
 # Footer
 st.markdown("---")
-st.markdown("*Hope you will have fun with this app! - Elena*")
+st.markdown("Hope you will have fun with this app! - Yours, Elena")
