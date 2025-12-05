@@ -174,7 +174,7 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                             st.session_state.my_wish_probability = 0
                             st.rerun()
                     
-                    st.markdown("💌 *Send this link to friends. Each friend's click adds random Christmas luck!*")
+                    st.markdown("*Send this link to friends. Each friend's click adds random Christmas luck!*")
                     
                 else:
                     # Show more helpful feedback
