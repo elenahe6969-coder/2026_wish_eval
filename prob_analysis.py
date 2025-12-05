@@ -221,7 +221,7 @@ if shared_wish_id and shared_wish_text:
                 st.success(f"""
                 **Thank you for sharing your Christmas luck!** 
                 
-                *You added +{increment}% to your friend's wish!*
+                *You added +{increment}% probability to the wish!*
                 
                 **✨ May your kindness return to you threefold in 2026!**
                 """)
