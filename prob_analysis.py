@@ -219,7 +219,7 @@ if shared_wish_id and shared_wish_text:
                 st.session_state.supported_wishes[shared_wish_id] = increment
                 st.balloons()
                 st.success(f"""
-                🎉 **Thank you for sharing your Christmas luck!** 
+                **Thank you for sharing your Christmas luck!** 
                 
                 *You added +{increment}% to your friend's wish!*
                 
