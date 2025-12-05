@@ -141,7 +141,7 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     base_probability = 60.0 + (score * 20)  # 60-80% range
                     
                     st.success("🌟 **Great wish! The Christmas spirit approves!**")
-                    st.markdown(f'<div class="positive-wish">🎄 **Your wish:** "{wish_prompt[:200]}..."</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="positive-wish">🎄 Your wish: "{wish_prompt[:200]}..."</div>', unsafe_allow_html=True)
                     st.info(f"**Initial probability:** **{base_probability:.1f}%**")
                     
                     # Save wish data
@@ -155,7 +155,7 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     
                     share_link = create_share_link(st.session_state.wish_id, wish_prompt)
                     
-                    col1, col2 = st.columns([3, 1])
+                    col1, col2 = st.columns([4, 0.5])
                     with col1:
                         st.code(share_link, language="text")
                     with col2:
