@@ -124,9 +124,8 @@ if st.button("Evaluate the probability", type="primary"):
                 pipe = pipeline("sentiment-analysis")
                 wish_result = pipe(wish_prompt[:512])[0]
                 
-                if wish_result['label'] == 'POSITIVE':
-                    # Fixed: Using max() instead of avg()
-                    base_probability = max(60.0, wish_result['score'] * 100)
+                if wish_result['label'] == 'POSITIVE'
+                    base_probability = (60.0 + wish_result['score'] * 100) / 2
                     
                     st.success("🌟 Nice work! That's a wonderful wish.")
                     st.info(f"Initial probability: **{base_probability:.1f}%**")
@@ -209,10 +208,7 @@ if st.button("Evaluate the probability", type="primary"):
                     st.markdown("*Send this link to friends. Each click adds random luck!*")
                     
                 else:
-                    st.warning("Hmm, let's think more positively!")
-                    new_wish = st.text_input("Dear friend, you deserve a better wish: ")
-                    if new_wish:
-                        st.info("That's the spirit! Try evaluating this new wish.")
+                    st.warning("Hmm, You might want to think of a more specific one.")
                         
             except Exception as e:
                 st.error(f"Error: {str(e)[:100]}")
@@ -223,4 +219,4 @@ if st.button("Evaluate the probability", type="primary"):
 
 # Footer
 st.markdown("---")
-st.markdown("*🎄 Share the Christmas spirit with friends!*")
+st.markdown("*🎄 Share the Christmas spirit with friends! Elena*")
