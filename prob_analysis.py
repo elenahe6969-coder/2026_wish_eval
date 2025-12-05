@@ -86,25 +86,19 @@ def evaluate_wish_sentiment(wish_text):
         # Check if it contains wish-related keywords
         has_wish_keyword = any(keyword in wish_text.lower() for keyword in ['wish', 'hope', 'want', 'dream'])
         
-        # Check score - be more lenient (accept anything above 0.3 for positive)
-        if result['label'] == 'POSITIVE' and result['score'] > 0.3:
+        # Check score - be more lenient (accept anything above 0.6 for positive)
+        if result['label'] == 'POSITIVE' and result['score'] > 0.6:
             return 'POSITIVE', result['score']
-        elif has_wish_keyword and result['score'] > 0.2:
-            # If it has wish keywords, treat as positive even with lower score
-            return 'POSITIVE', max(result['score'], 0.5)
-        elif 'christmas' in wish_text.lower() or 'merry' in wish_text.lower():
-            # Christmas-related wishes are always positive
-            return 'POSITIVE', 0.8
         else:
             return result['label'], result['score']
             
     except Exception as e:
         # Fallback: If model fails, assume positive for wishes
-        print(f"Model error: {e}")
-        return 'POSITIVE', 0.7
+        print(f"oops! something went wrong: Model error: {e}")
+
 
 # Main App
-st.title("2026 Wish Facilitator")
+st.title("Christmas Wish 2026")
 st.markdown("### Hi there, Merry Christmas! 🎄")
 
 # Add some Christmas spirit
@@ -112,7 +106,7 @@ st.markdown("*🎅 Santa's elves are ready to evaluate your wish for 2026!*")
 
 # Wish input for everyone
 wish_prompt = st.text_area(
-    "Tell me your wish for 2026, and I'll assess how likely it is to come true:",
+    "Tell us your wish for 2026, and we'll assess how likely it is to come true:",
     placeholder="E.g., I wish to learn a new language in 2026...",
     key="wish_input",
     height=100
@@ -157,62 +151,9 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     st.session_state.my_wish_probability = base_probability
                     st.session_state.wish_id = generate_wish_id(wish_prompt)
                     
-                    # Support section
-                    st.markdown("---")
-                    st.markdown("### ❤️ Increase Your Probability!")
-                    st.markdown("*Click the hearts to add random Christmas luck (1-10% each)!*")
-                    
-                    # Generate 5 support buttons with random increments
-                    support_cols = st.columns(5)
-                    
-                    # Initialize or get existing support clicks for this session
-                    current_support_key = f"wish_{st.session_state.wish_id}"
-                    if current_support_key not in st.session_state.support_clicks:
-                        st.session_state.support_clicks[current_support_key] = {}
-                    
-                    # Create support buttons
-                    for i in range(5):
-                        with support_cols[i]:
-                            # Get random increment for this button
-                            if i not in st.session_state.support_clicks[current_support_key]:
-                                increment = get_random_increment()
-                                # Store the increment for this button
-                                st.session_state.support_clicks[current_support_key][i] = {
-                                    'increment': increment,
-                                    'used': False
-                                }
-                            
-                            button_data = st.session_state.support_clicks[current_support_key][i]
-                            
-                            if not button_data['used']:
-                                if st.button(f"✨\n+{button_data['increment']}%", key=f"support_{i}"):
-                                    # Update probability
-                                    st.session_state.my_wish_probability = min(
-                                        99.9, 
-                                        st.session_state.my_wish_probability + button_data['increment']
-                                    )
-                                    # Mark button as used
-                                    st.session_state.support_clicks[current_support_key][i]['used'] = True
-                                    st.rerun()
-                            else:
-                                st.button(f"✅\nUsed", key=f"used_{i}", disabled=True)
-                    
-                    # Display current probability
-                    current_prob = st.session_state.my_wish_probability
-                    st.markdown(f"**Current probability: {current_prob:.1f}%**")
-                    
-                    # Progress bar
-                    progress = current_prob / 100
-                    st.progress(progress)
-                    
-                    if current_prob >= 80:
-                        st.balloons()
-                        st.success("🎉 **Amazing! With this much support, your wish is very likely to come true!**")
-                    
                     # Share section
                     st.markdown("---")
-                    st.markdown("### 📤 Share with Friends")
-                    st.markdown("*Get more Christmas luck from friends!*")
+                    st.markdown("### 📤 Share with friends to get more Christmas luck from friends!")
                     
                     share_link = create_share_link(st.session_state.wish_id, wish_prompt)
                     
@@ -240,44 +181,6 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     st.warning("### 🎄 Let's Make This Wish Even Better!")
                     st.markdown(f"""
                     **Your wish:** "{wish_prompt[:150]}..."
-                    
-                    **Tips to improve:**
-                    1. **Start with positive words** like "I wish", "I hope", "I want"
-                    2. **Be specific** about what you want
-                    3. **Focus on positive outcomes**
-                    4. **Use present tense** as if it's already happening
-                    
-                    **Example:** Instead of "I don't want to be stressed", try "I wish to find peace and balance in 2026"
-                    """)
-                    
-                    # Quick improvement options
-                    st.markdown("### Quick Improvement:")
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        if st.button("✨ Rephrase as positive wish"):
-                            new_text = wish_prompt
-                            # Simple transformation
-                            if "don't" in wish_prompt.lower() or "not" in wish_prompt.lower():
-                                new_text = wish_prompt.replace("don't", "want to").replace("not", "")
-                                new_text = "I wish to " + new_text.lower().split("i ")[-1] if "i " in new_text.lower() else "I wish " + new_text
-                            st.text_area("Improved version:", value=new_text, key="improved_wish")
-                    with col2:
-                        if st.button("🎯 Try Again"):
-                            st.rerun()
-                        
-            except Exception as e:
-                st.error(f"⚠️ Technical issue: {str(e)[:100]}")
-                # Always positive fallback for Christmas
-                st.success("🎄 **Christmas magic says your wish is POSITIVE!**")
-                base_probability = 65.0
-                st.info(f"**Initial probability: {base_probability:.1f}%**")
-                
-                # Save anyway
-                st.session_state.my_wish_text = wish_prompt
-                st.session_state.my_wish_probability = base_probability
-                st.session_state.wish_id = generate_wish_id(wish_prompt)
-    else:
-        st.warning("📝 Please write your wish (at least 4 characters)")
 
 # Check for shared wish (AFTER main wish evaluation)
 query_params = st.query_params
