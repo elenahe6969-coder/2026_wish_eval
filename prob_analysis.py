@@ -62,53 +62,7 @@ def create_share_link(wish_id, wish_text):
 st.title("2026 Wish Facilitator")
 st.markdown("### Hi there, my friend! Merry Christmas! 🎄")
 
-# Check for shared wish
-query_params = st.query_params
-shared_wish_id = query_params.get("wish_id", [None])[0]
-shared_wish_text = query_params.get("wish", [None])[0]
-
-# If shared wish exists, show support page
-if shared_wish_id and shared_wish_text:
-    st.markdown("---")
-    st.markdown("### ❤️ **Share Your Luck!**")
-    
-    with st.container():
-        st.markdown('<div class="wish-card">', unsafe_allow_html=True)
-        st.markdown(f"**Their Wish:**")
-        st.markdown(f"> *{urllib.parse.unquote(shared_wish_text)}...*")
-        st.markdown("</div>", unsafe_allow_html=True)
-    
-    st.markdown("*Merry Christmas! I just made a wish for 2026. Please click the heart button to share your luck!*")
-    st.markdown("---")
-    
-    # Generate random increment
-    increment = get_random_increment()
-    
-    # Support button
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button(f"❤️ **Click to Add +{increment}% Luck** ❤️", type="primary", use_container_width=True):
-            if shared_wish_id not in st.session_state.supported_wishes:
-                with st.spinner("Sending your luck..."):
-                    time.sleep(1)
-                
-                st.session_state.supported_wishes[shared_wish_id] = increment
-                st.balloons()
-                st.success(f"🎉 Thank you! You added +{increment}% luck!")
-                time.sleep(2)
-                st.markdown("---")
-                st.markdown("### Now make your own wish!")
-            else:
-                st.info("You've already supported this wish!")
-    
-    # Always show the wish input for everyone
-    st.markdown("---")
-    st.markdown("### Make Your Own Wish")
-else:
-    # Main wish input (only show when no shared wish is being viewed)
-    st.markdown("### Make Your Wish for 2026")
-
-# Wish input for everyone (moved outside the if/else block)
+# Wish input for everyone
 wish_prompt = st.text_area(
     "Tell me your wish for 2026, and I'll assess how likely it is to come true.",
     placeholder="E.g., I wish to learn a new language in 2026...",
@@ -216,6 +170,54 @@ if st.button("Evaluate the probability", type="primary"):
                 st.info("🎄 Your wish has been recorded! Probability: 60%")
     else:
         st.warning("Please enter a wish (at least 4 characters)")
+        
+# Check for shared wish
+query_params = st.query_params
+shared_wish_id = query_params.get("wish_id", [None])[0]
+shared_wish_text = query_params.get("wish", [None])[0]
+
+# If shared wish exists, show support page
+if shared_wish_id and shared_wish_text:
+    st.markdown("---")
+    st.markdown("### ❤️ **Share Your Luck!**")
+    
+    with st.container():
+        st.markdown('<div class="wish-card">', unsafe_allow_html=True)
+        st.markdown(f"**Their Wish:**")
+        st.markdown(f"> *{urllib.parse.unquote(shared_wish_text)}...*")
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    st.markdown("*Merry Christmas! I just made a wish for 2026. Please click the heart button to share your luck!*")
+    st.markdown("---")
+    
+    # Generate random increment
+    increment = get_random_increment()
+    
+    # Support button
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button(f"❤️ **Click to Add +{increment}% Luck** ❤️", type="primary", use_container_width=True):
+            if shared_wish_id not in st.session_state.supported_wishes:
+                with st.spinner("Sending your luck..."):
+                    time.sleep(1)
+                
+                st.session_state.supported_wishes[shared_wish_id] = increment
+                st.balloons()
+                st.success(f"🎉 Thank you! You added +{increment}% luck!")
+                time.sleep(2)
+                st.markdown("---")
+                st.markdown("### Now make your own wish!")
+            else:
+                st.info("You've already supported this wish!")
+    
+    # Always show the wish input for everyone
+    st.markdown("---")
+    st.markdown("### Make Your Own Wish")
+else:
+    # Main wish input (only show when no shared wish is being viewed)
+    st.markdown("### Make Your Wish for 2026")
+
+
 
 # Footer
 st.markdown("---")
