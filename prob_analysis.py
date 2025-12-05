@@ -209,12 +209,6 @@ if shared_wish_id and shared_wish_text:
                 st.markdown("### Now make your own wish!")
             else:
                 st.info("You've already supported this wish!")
-    
-else:
-    # Main wish input (only show when no shared wish is being viewed)
-    st.markdown("### Make Your Wish for 2026")
-
-
 
 # Footer
 st.markdown("---")
