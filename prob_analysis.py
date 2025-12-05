@@ -61,8 +61,8 @@ def generate_wish_id(wish_text):
     return hashlib.md5(unique_str.encode()).hexdigest()[:10]
 
 def create_share_link(wish_id, wish_text):
-    base_url = "https://2026wisheval-elena-python.streamlit.app"
-    encoded_wish = urllib.parse.quote(wish_text[:50])
+    base_url = "https://2026wisheval-elena-"
+    encoded_wish = urllib.parse.quote(wish_text[:10])
     return f"{base_url}?wish_id={wish_id}&wish={encoded_wish}"
 
 def evaluate_wish_sentiment(wish_text):
@@ -155,7 +155,7 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     
                     share_link = create_share_link(st.session_state.wish_id, wish_prompt)
                     
-                    col1 = st.columns([5])
+                    col1 = st.columns([4])
                     with col1:
                         st.code(share_link, language="text")
                     
