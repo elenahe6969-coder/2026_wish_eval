@@ -199,7 +199,7 @@ if shared_wish_id and shared_wish_text:
         st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown("""
-    💌 **Message from your friend:**
+    **Message from your friend:**
     *"Merry Christmas! I just made a wish for 2026. 
     Please click the heart button to share your Christmas luck and help make my wish come true!"*
     """)
