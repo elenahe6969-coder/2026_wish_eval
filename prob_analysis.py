@@ -223,7 +223,7 @@ if shared_wish_id and shared_wish_text:
                 
                 *You added +{increment}% probability to the wish!*
                 
-                **✨ May your kindness return to you threefold in 2026!**
+                **May your kindness return to you threefold in 2026!**
                 """)
                 time.sleep(2)
                 st.markdown("---")
