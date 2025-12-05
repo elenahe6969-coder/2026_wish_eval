@@ -129,6 +129,6 @@ if shared_wish_id and shared_wish_text:
             **✨ Christmas Blessing:**  
             *May your kindness return to you threefold in 2026!*
             """)
-             st.markdown("### Now it's your turn to make a wish by clicking below link.")
-             st.markdown("### https://2026wisheval-elena-python.streamlit.app/")
+st.markdown("### Now it's your turn to make a wish by clicking below link.")
+st.markdown("### https://2026wisheval-elena-python.streamlit.app/")
           
