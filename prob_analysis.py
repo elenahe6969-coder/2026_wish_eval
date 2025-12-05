@@ -233,11 +233,5 @@ if shared_wish_id and shared_wish_text:
 
 # Footer
 st.markdown("---")
-col1, col2 = st.columns([3, 1])
 with col1:
     st.markdown("*Hope you will have fun with this app! - Elena*")
-with col2:
-    if st.button("🔄 Reset All"):
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
