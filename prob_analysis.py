@@ -113,7 +113,7 @@ st.markdown("*🎅 Santa's elves are ready to evaluate your wish for 2026!*")
 # Wish input for everyone
 wish_prompt = st.text_area(
     "Tell me your wish for 2026, and I'll assess how likely it is to come true:",
-    placeholder="E.g., I wish to learn a new language in 2026...\nI hope to travel to Japan in 2026...\nMy dream is to start my own business in 2026...",
+    placeholder="E.g., I wish to learn a new language in 2026...",
     key="wish_input",
     height=100
 )
@@ -131,7 +131,7 @@ with st.expander("💡 Tips for better wishes"):
     **Examples of good wishes:**
     - I wish to learn Spanish in 2026
     - I hope to get a promotion at work
-    - My dream is to visit Japan
+    - My dream is to travel around the world
     - I want to improve my health
     """)
 
