@@ -124,7 +124,7 @@ if st.button("Evaluate the probability", type="primary"):
                 pipe = pipeline("sentiment-analysis")
                 wish_result = pipe(wish_prompt[:512])[0]
                 
-                if wish_result['label'] == 'POSITIVE'
+                if wish_result['label'] == 'POSITIVE':
                     base_probability = (60.0 + wish_result['score'] * 100) / 2
                     
                     st.success("🌟 Nice work! That's a wonderful wish.")
