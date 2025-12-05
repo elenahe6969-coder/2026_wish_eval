@@ -155,15 +155,9 @@ if st.button("🎯 Evaluate My Wish", type="primary"):
                     
                     share_link = create_share_link(st.session_state.wish_id, wish_prompt)
                     
-                    col1, col2 = st.columns([4, 0.5])
+                    col1 = st.columns([5])
                     with col1:
                         st.code(share_link, language="text")
-                    with col2:
-                        if st.button("🔄 New Wish"):
-                            # Clear current wish to make a new one
-                            st.session_state.my_wish_text = ""
-                            st.session_state.my_wish_probability = 0
-                            st.rerun()
                     
                     st.markdown("*Send this link to friends. Each friend's click adds random Christmas luck!*")
                     
