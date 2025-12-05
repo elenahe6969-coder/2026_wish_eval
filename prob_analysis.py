@@ -219,11 +219,11 @@ if shared_wish_id and shared_wish_text:
                 st.session_state.supported_wishes[shared_wish_id] = increment
                 st.balloons()
                 st.success(f"""
-                **Thank you for sharing your Christmas luck!** 
+                Thank you for sharing your Christmas luck!
                 
-                *You added +{increment}% probability to the wish!*
+                You added +{increment}% probability to the wish!
                 
-                **May your kindness return to you threefold in 2026!**
+                May your kindness return to you threefold in 2026!
                 """)
                 time.sleep(2)
                 st.markdown("---")
@@ -233,5 +233,4 @@ if shared_wish_id and shared_wish_text:
 
 # Footer
 st.markdown("---")
-with col1:
-    st.markdown("*Hope you will have fun with this app! - Elena*")
+st.markdown("*Hope you will have fun with this app! - Elena*")
